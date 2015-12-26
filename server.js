@@ -88,3 +88,19 @@ app.get('/api/shows', function(req, res, next) {
     res.send(shows);
   });
 });
+
+app.get('/api/shows/:id', function(req, res, next) {
+  Show.findById(req.params.id, function(err, show) {
+    if (err) return next(err);
+    res.send(show);
+  });
+});
+
+app.get('*', function(req, res) {
+  res.redirect('/#' + req.originalUrl);
+});
+
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.send(500, { message: err.message });
+});
